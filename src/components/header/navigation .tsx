@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/navigation-menu"
 import { Button } from "../ui/button"
 import { ModeToggle } from "./mode-toggle"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+import RegistrationForm from "../forms/registration-form"
 
 type MenuItem = {
 	title: string;
@@ -46,8 +48,8 @@ const Navigation = () => {
 	return(
 		<nav className="fixed top-0 left-0 z-50 flex h-16 w-full items-center justify-between border-b bg-background px-4 shadow-sm">
 			<Link href="/" className="text-foreground flex items-center gap-2">
-				<DiscgolfBasket className="text-foreground w-10 h-10" />
-				<span>Svenska Dubbeldisc Ligan</span>
+				<DiscgolfBasket className="text-foreground w-8 h-8" />
+				<span className="font-semibold text-sm">Svenska Dubbeldisc Ligan</span>
 			</Link>
 
 			<NavigationMenu>
@@ -126,7 +128,23 @@ const Navigation = () => {
 			</NavigationMenu>
 
 			<div className="flex items-center gap-2">
-				<Button variant="default">Anmälan</Button>
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button variant="default">Anmälan</Button>
+					</DialogTrigger>
+					<DialogContent className="sm:max-w-3xl">
+						<DialogHeader>
+							<DialogTitle>Anmälan Svenska DoubleDisc Ligan</DialogTitle>
+							<DialogDescription>
+								Sista anmälningsdag: 2025-03-10
+							</DialogDescription>
+						</DialogHeader>
+
+						<RegistrationForm />
+
+					</DialogContent>
+				</Dialog>
+
 				<Button variant="secondary">Logga in</Button>
 				<ModeToggle />
 			</div>
