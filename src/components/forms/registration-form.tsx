@@ -4,6 +4,8 @@ import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFieldArray } from "react-hook-form"
 
+import { registrationFormSchema } from "@/schema/form-schema"
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -17,30 +19,22 @@ import {
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
-const formSchema = z.object({
-  lagnamn: z.string().min(1, "Lagnamn krävs"),
-  klass: z.string().min(1, "Klass krävs"),
-  spelare: z.array(z.object({
-    namn: z.string().min(1, "Spelarnamn krävs"),
-    disc: z.string().min(1, "Ingen bra disk!"),
-  })).min(1, "Minst en spelare krävs"),
-  hemmabana: z.string().min(1, "Hemmabana krävs"),
-  besoksadress: z.string().min(1, "Besöksadress krävs"),
-  postnummer: z.string().min(1, "Postnummer krävs").regex(/^\d{5}$/, "Ogiltigt postnummer"),
-  ort: z.string().min(1, "Ort krävs"),
-  land: z.string().min(1, "Land krävs"),
-  telefon: z.string().min(1, "Telefon krävs").regex(/^\+?[0-9\- ]{7,}$/, "Ogiltigt telefonnummer"),
-  email: z.string().email("Ogiltig e-postadress"),
-  password: z.string().min(6, "Lösenordet måste vara minst 6 tecken"),
-})
-
 const RegistrationForm = () => {
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const form = useForm<z.infer<typeof registrationFormSchema>>({
+		resolver: zodResolver(registrationFormSchema),
 		defaultValues: {
 			lagnamn: "",
 			klass: "",
-      spelare: [{ namn: "", disc: "" }],
+			spelare: [{ namn: "", disc: "" }],
+			hemmabana: "",
+			besoksadress: "",
+			postnummer: "",
+			ort: "",
+			land: "",
+			telefon: "",
+			email: "",
+			password: "",
+			kontaktperson: ""
 		}
 	})
 
@@ -49,7 +43,7 @@ const RegistrationForm = () => {
     name: "spelare"
   })
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
+	const onSubmit = (values: z.infer<typeof registrationFormSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
@@ -101,6 +95,8 @@ const RegistrationForm = () => {
           )}
         />
 
+
+				{/* Spelare */}
         <div className="w-full p-2">
           <h3 className="font-bold mb-2">Spelare</h3>
           {fields.map((field, index) => (
@@ -140,6 +136,36 @@ const RegistrationForm = () => {
             Lägg till spelare
           </Button>
         </div>
+				{/* Spelare ends */}
+
+
+				<FormField
+          control={form.control}
+          name="kontaktperson"
+          render={({ field }) => (
+            <FormItem className="w-2/4 p-2">
+              <FormLabel>Kontaktperson</FormLabel>
+              <FormControl>
+                <Input placeholder="Kontaktperson" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+				<FormField
+          control={form.control}
+          name="telefon"
+          render={({ field }) => (
+            <FormItem className="w-2/4 p-2">
+              <FormLabel>Telefonnummer</FormLabel>
+              <FormControl>
+                <Input placeholder="Telefonnummer" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
 				<FormField
           control={form.control}
@@ -150,9 +176,66 @@ const RegistrationForm = () => {
               <FormControl>
                 <Input placeholder="Hemmabana" {...field} />
               </FormControl>
-              <FormDescription>
+							<FormDescription>
                 Vilken bana är er hemmabana?
               </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+				{/* Kontouppgifter */}
+				<FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="w-2/4 p-2">
+              <FormLabel>E-mailaddress</FormLabel>
+              <FormControl>
+                <Input placeholder="E-mailaddress" type="email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+				<FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="w-2/4 p-2">
+              <FormLabel>Bekräfta E-mailaddress</FormLabel>
+              <FormControl>
+                <Input placeholder="Bekräfta E-mailaddress" type="email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+				<FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="w-2/4 p-2">
+              <FormLabel>Lösenord</FormLabel>
+              <FormControl>
+                <Input placeholder="Lösenord" type="password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+				<FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="w-2/4 p-2">
+              <FormLabel>Bekräfta Lösenord</FormLabel>
+              <FormControl>
+                <Input placeholder="Bekräfta Lösenord" type="password" {...field} />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

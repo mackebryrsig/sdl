@@ -27,8 +27,8 @@ type MenuItem = {
 
 const InfoItems: MenuItem[] = [
 	{ title: "Tävlingsinformation", href: "/tavlingsinformation", description: "Information om tävlingen" },
-	{ title: "Karta", href: "/karta", description: "Se alla platser där SDL spelas." },
-	{ title: "Nyheter", href: "/nyheter", description: "Nyheter kopplade till tävlingen" },
+	// { title: "Karta", href: "/karta", description: "Se alla platser där SDL spelas." },
+	// { title: "Nyheter", href: "/nyheter", description: "Nyheter kopplade till tävlingen" },
 	{ title: "Regler", href: "/regler", description: "Regler om tävlingen" },
 ];
 
